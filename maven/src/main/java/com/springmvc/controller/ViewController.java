@@ -1,5 +1,8 @@
 package com.springmvc.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,11 +37,18 @@ public class ViewController {
 		}
 		ModelAndView mav = new ModelAndView();
 		if(login!=null) {
-			mav.setViewName("redirect:toPage?pageName=success");
+			List<User> users = null;
+			try {
+				users = userService.getUserList();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			mav.addObject("users", users);
+			mav.setViewName("forward:toPage?pageName=success");
 		}else {
 			mav.setViewName("redirect:toPage?pageName=fail");
 		}
-		
         return mav;
 	}
 	
@@ -54,13 +64,59 @@ public class ViewController {
 		}
 		ModelAndView mav = new ModelAndView();
 		if(regis!=0) {
-			mav.setViewName("redirect:toPage?pageName=regisok");
+			mav.setViewName("forward:toPage?pageName=regisok");
 		}else {
-			mav.setViewName("redirect:toPage?pageName=regisfail");
+			mav.setViewName("redirect:toPage?pageName=fail");
 		}
-		
         return mav;
 	}
+	
+	@RequestMapping("/delete")
+	public ModelAndView delete(String user){
+		int del = 0;
+		try {
+			del = userService.delete(user);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView mav = new ModelAndView();
+		if(del!=0) {
+			List<User> users = null;
+			try {
+				users = userService.getUserList();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			mav.addObject("users", users);
+			mav.setViewName("forward:toPage?pageName=success");
+		}else {
+			mav.setViewName("redirect:toPage?pageName=fail");
+		}
+        return mav;
+	}
+	
+	@RequestMapping("/deleteAll")
+	public ModelAndView deleteAll(String names){
+		int regis = 0;
+		try {
+//			regis = userService.regis(account, password);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ModelAndView mav = new ModelAndView();
+		if(regis!=0) {
+			mav.setViewName("forward:toPage?pageName=regisok");
+		}else {
+			mav.setViewName("redirect:toPage?pageName=fail");
+		}
+        return mav;
+	}
+	
 	
 	@RequestMapping("toPage")
 	public String toPage(String pageName) {

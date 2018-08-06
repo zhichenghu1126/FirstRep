@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>登陆失敗</h3>
+	<h3>失敗</h3>
 </body>
 </html>

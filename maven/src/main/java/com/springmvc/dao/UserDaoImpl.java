@@ -58,7 +58,38 @@ public class UserDaoImpl implements UserDao{
 		return update;
 	}
 	
+	public List<User> show() throws SQLException{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		conn = dataSource.getConnection();
+		String sql = "select user_name,user_password from user";
+		pstmt = conn.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		List<User>  users = new ArrayList<User>();
+		while (rs.next()) {
+			String userName = rs.getString("user_name");
+			String up = rs.getString("user_password");
+			User user = new User();
+			user.setName(userName);
+			user.setPassword(up);
+			users.add(user);
+		}
+		conn.close();
+		return users;
+	}
 	
+	public int del(String user) throws SQLException{
+		int del = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		conn = dataSource.getConnection();
+		String sql = "delete from user where user_name =?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, user);
+		del = pstmt.executeUpdate();
+		conn.close();
+		return del;
+	}
 	
 	
 	
