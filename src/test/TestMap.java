@@ -16,6 +16,7 @@ public class TestMap {
 		map.put("003", "c");
 		map.put("004", "d");
 		map.put("005", "e");
+		System.out.println(map.get("001"));
 		printMap(map);
 	}
 	/**

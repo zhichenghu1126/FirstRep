@@ -10,7 +10,7 @@ public class ThreadPool {
 
 	public static void main(String[] args) {
 		//如果Executors提供的三个静态方法能满足要求，就尽量使用它提供的三个方法，因为自己去手动配置ThreadPoolExecutor的参数有点麻烦，要根据实际任务的类型和数量来进行配置
-		ThreadPoolExecutor executor=new ThreadPoolExecutor(10,13,
+		ThreadPoolExecutor executor=new ThreadPoolExecutor(5,13,
 				200,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(10));
 		//ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(10);
 				for(int i=0;i<18;i++)

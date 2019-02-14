@@ -18,7 +18,7 @@ public class 打印回型数和螺旋形数 {
 		private static void fun_1(int n) {
 			int[][] map =new int[n*2-1][n*2-1];
 			for (int i = 0; i < map.length; i++) { 
-				for (int j = 0; j < map[i].length; j++) { 
+				for (int j = 0; j < map.length; j++) { 
 					int d1 = Math.abs(i - n + 1); 
 					int d2 = Math.abs(j - n + 1); 
 					map[i][j] = 1 + (d1 > d2 ? d1 : d2);

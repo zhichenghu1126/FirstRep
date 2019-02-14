@@ -20,9 +20,6 @@ public class TestJson {
 		List<Hero> hero = new ArrayList<>();
 		hero.add(盖伦);
 		hero.add(提莫);
-		String listJson = JSON.toJSONString(hero);
-		System.out.println(listJson);
-		
 		//System.out.println(buildJSONResponse());
 	}
 	
