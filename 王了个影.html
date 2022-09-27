@@ -1,0 +1,259 @@
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    background-position:center;
+    overflow: auto;
+    //background-image: url('https://www.fescoadecco.com/public/simpleboot/images/logo6.png');
+    background-size: cover;
+  }
+  #box {
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  #temp {
+    width: 840px;
+    height: 120px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 0;
+    //background-image: url('https://dss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/ba15b29ee96a3787e5d0dd7a48f78d2a_343_350.jpg');
+    background-size: contain;
+    border-radius: 16px;
+    display: flex;
+  }
+  .item {
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid #333;
+    cursor: pointer;
+  }
+  .shadow {
+    box-shadow: 0 0 50px 10px #333 inset;
+  }
+  #source {
+    width: 260px;
+    height: 120px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  #source1 {
+    width: 260px;
+    height: 120px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .result {
+    width: 200px;
+    height: 120px;
+    border: 4px dashed cyan;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    display: none;
+  }
+  .restart {
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #333;
+    text-align: center;
+    cursor: pointer;
+    margin: auto;
+  }
+</style>
+<body>
+  <div id="box"></div>
+  <div id="temp"></div>
+  <div id="source"></div>
+  <div id="source1"></div>
+  <div class="result">
+    <div>别灰心，你能行的！</div>
+    <div class="restart">重新面试</div>
+  </div>
+</body>
+<script src="https://unpkg.com/jquery"></script>
+<script>
+  $(function () {
+    const imgSrc = [
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5l6PXghQLunhkL2quKola6ZIa70y*yXIJnmoMcv5VrTYN.BQoL7giCWF.nQa09MT5gIP2x2hCOlav9AfD4OIdiQ!/b&bo=OASgBTgEoAUBByA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5l6PXghQLunhkL2quKola6b5l9sciqp5MKhxViEvQ8yZQXycerZdpwNj7Y*MS6PqDUUKQp4qgiuNGLekvSkL*Ko!/b&bo=wAMABcADAAUBFzA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5gvRqi3wMrFKpL7NDwlde4Z3GSjBnqrJNMyFtZ0vVhn4Pf.VnHl8109WIyMmJTbvFpndYwbJXdX93zR5L9yBvTA!/b&bo=OASgBTgEoAUBFzA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5gvRqi3wMrFKpL7NDwlde4aUXkakoy6Qi0rMUjGoszF0EA9RMjmZgzq7F4U55.ARhqTRzTiWxVZaHct*G3Mj6xI!/b&bo=OASgBTgEoAUBJwA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5gvRqi3wMrFKpL7NDwlde4YJfMyMqxrVsqyE5FltKlgGOOC8wmLY33swA3MUca*3lBhA.I37k1dhlHpzC2UmFMQ!/b&bo=BASABwQEgAcBFzA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5gvRqi3wMrFKpL7NDwlde4bCD4os2zk7kGJy3eev249Q3BZbTL9lH6jXJotidw.xF4dsR28FSH7Gn6q.QjL3BYQ!/b&bo=BASABwQEgAcBFzA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5vMgJN5Uo4xCwz6EBQl9MUD9OQJm148JQgZezZLVr1m*.DI7O75rkJs3W5h6tcvglt14ainNG0p4jGYaV9kYtkQ!/b&bo=OASfBTgEnwUBFzA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5vMgJN5Uo4xCwz6EBQl9MUDq3*eRSz0FujLQr2DtLwCRoSJITZAQRfjtetPY7yy.KWWt3RPyV1ON*Raqk6lsOuA!/b&bo=BASABwQEgAcBJwA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5vMgJN5Uo4xCwz6EBQl9MUDQoIk3x5wClgSlXGyEvxS2sKUyJ3F2jQxek*GhcU07slNxs0NKaKJwvUwn7izRMRg!/b&bo=0AI*BdACPwUBFzA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5vMgJN5Uo4xCwz6EBQl9MUCLQLqfj*ZnuWnU0Sn.JpWHNg9fncq2YNZDSWfAEeyNHt6d07.7vKXPCaqyy3aI.ec!/b&bo=OASgBTgEoAUBFzA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5t91C38qzP7GS9N4ABWxQdpY2Kto6mXxAd18WE*lnQTH6U6DAKVZElXfhsf8kG6OQ9*OWyW8HUl3Nn3k.h0SajI!/b&bo=OASgBTgEoAUBJwA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5t91C38qzP7GS9N4ABWxQdqFeq.FZpCszMTtpbvB.S83EPpDR0lk*PqzjBZ0RTEHEHFGIMsoR80awqytEmstT*k!/b&bo=OASgBTgEoAUBJwA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5t91C38qzP7GS9N4ABWxQdqDMLYzl.sTrRp36HlzO1UXU6OtCrmdUNVdQ7ZVOc5M7tdGqZwloO33fkhDmA3Ezqs!/b&bo=OASgBTgEoAUBJwA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5t91C38qzP7GS9N4ABWxQdp4f1LWwnmUZUQhxb0zNqNEoytH6yjQW7HsAHKVmKBEYevBhBmnHKJxVwIDayotuWc!/b&bo=OASgBTgEoAUBFzA!&rf=viewer_4',
+      'http://m.qpic.cn/psc?/V52IlGK64DAv1i2ZbW9x4Ti21w4AItef/ruAMsa53pVQWN7FLK88i5jnc3mCbU8kWCmpu3xwx1HPulMFIx6fmhhfm.oXRicKsnWbKTwAaJZCaRcJpKc68dWkSwbaWM5Qn5R4yr.nnu08!/b&bo=OASgBTgEoAUBFzA!&rf=viewer_4',
+    ];
+    function randomArr(array) {
+      const arr = [].concat(array);
+      for (let i = arr.length - 1; i >= 0; i--) {
+        const inx = Math.floor(Math.random() * i + 1);
+        const next = arr[inx];
+        arr[inx] = arr[i];
+        arr[i] = next;
+      }
+      return arr;
+    }
+    $('.restart').click(start);
+    function start() {
+      $('#box').empty();
+      $('#temp').empty();
+      $('#source').empty();
+      $('#source1').empty();
+      $('.result').fadeOut();
+      let zIndex = 0;
+      let source = [];
+      let temp = {};
+      for (let i = 0; i < 12; i++) {
+        imgSrc.map((v, m) => {
+          console.log(m);
+          source.push({ src: v, inx: m });
+        });
+      }
+      source = randomArr(source);
+      for (let k = 5; k > 0; k--) {
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < k; j++) {
+            let div = $('<div>');
+            div.addClass('item');
+            div.addClass(`${i}-${j}-${k}`);
+            div.attr('x', i);
+            div.attr('y', j);
+            div.attr('z', k);
+            div.css('position', 'absolute');
+            let img = source.splice(0, 1);
+            div.css('left', 120 * j - Math.random() * 10 * k + 'px');
+            div.css('top', 120 * i - Math.random() * 10 * k + 'px');
+            div.attr('inx', img[0].inx);
+            div.css('backgroundImage', `url(${img[0].src})`);
+            div.click(function () {
+              if (!$(this).hasClass('shadow')) {
+                if (temp[$(this).attr('inx')]) {
+                  temp[$(this).attr('inx')] += 1;
+                } else {
+                  temp[$(this).attr('inx')] = 1;
+                }
+                let e = $(this).detach();
+                e.css('position', 'unset');
+                $('#temp').append(e);
+                $('.item').each((i, v) => {
+                  $(v).removeClass('shadow');
+                  let x = $(v).attr('x');
+                  let y = $(v).attr('y');
+                  let z = $(v).attr('z');
+                  let ele = $(`.${x}-${y}-${z - 1}`);
+                  let ele1 = $(`.${x + 1}-${y + 1}-${z - 1}`);
+                  if (ele.length || ele1.length) {
+                    $(v).addClass('shadow');
+                  }
+                });
+                if (temp[$(this).attr('inx')] === 3) {
+                  $(`#temp div[inx=${$(this).attr('inx')}]`).remove();
+                  temp[$(this).attr('inx')] = 0;
+                }
+                let num = 0;
+                for (let i in temp) {
+                  num += temp[i];
+                }
+                if (num >= 7) {
+                  $('.item').off('click');
+                  $('.result').fadeIn();
+                }
+              }
+            });
+            $('#box').append(div);
+          }
+        }
+      }
+      let len = Math.ceil(source.length / 2);
+      source.forEach((v, i) => {
+        let div = $('<div>');
+        div.addClass('item');
+        div.attr('inx', v.inx);
+        div.css('backgroundImage', `url(${v.src})`);
+        div.css('position', 'absolute');
+        div.css('top', 0);
+        if (i > len) {
+          div.css('right', `${5 * (i - len)}px`);
+          $('#source1').append(div);
+        } else {
+          div.css('left', `${5 * i}px`);
+          $('#source').append(div);
+        }
+        div.click(function () {
+          if (temp[$(this).attr('inx')]) {
+            temp[$(this).attr('inx')] += 1;
+          } else {
+            temp[$(this).attr('inx')] = 1;
+          }
+
+          let e = $(this).detach();
+          e.css('position', 'unset');
+          $('#temp').append(e);
+          if (temp[$(this).attr('inx')] === 3) {
+            $(`#temp div[inx=${$(this).attr('inx')}]`).remove();
+            temp[$(this).attr('inx')] = 0;
+          }
+          let num = 0;
+          for (let i in temp) {
+            num += temp[i];
+          }
+          if (num >= 7) {
+            $('.item').off('click');
+            $('.result').fadeIn();
+          }
+        });
+      });
+      $('.item').each((i, v) => {
+        let x = $(v).attr('x');
+        let y = $(v).attr('y');
+        let z = $(v).attr('z');
+        let ele = $(`.${x}-${y}-${z - 1}`);
+        let ele1 = $(`.${x + 1}-${y + 1}-${z - 1}`);
+        if (ele.length || ele1.length) {
+          $(v).addClass('shadow');
+        }
+      });
+    }
+    start();
+  });
+</script>
